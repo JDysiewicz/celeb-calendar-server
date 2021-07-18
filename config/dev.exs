@@ -17,7 +17,7 @@ config :celeb_server, CelebServer.Repo,
 # with webpack to recompile .js and .css sources.
 config :celeb_server, CelebServerWeb.Endpoint,
   http: [port: 4000],
-  debug_errors: true,
+  debug_errors: false,
   code_reloader: true,
   check_origin: false,
   watchers: []
