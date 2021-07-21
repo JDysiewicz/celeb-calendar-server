@@ -49,4 +49,10 @@ defmodule CelebServerWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug CelebServerWeb.Router
+
+  plug Corsica,
+    origins: "http://localhost:4200",
+    allow_credentials: true,
+    allow_headers: ["*"],
+    log: [rejected: :error, invalid: :warn, accepted: :debug]
 end
