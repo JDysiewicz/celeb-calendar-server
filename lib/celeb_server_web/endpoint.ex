@@ -45,14 +45,15 @@ defmodule CelebServerWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
+  plug Corsica,
+    origins: "*",
+    allow_credentials: true,
+    allow_headers: :all,
+    log: [rejected: :error, invalid: :warn, accepted: :debug]
+
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug CelebServerWeb.Router
 
-  plug Corsica,
-    origins: "http://localhost:4200",
-    allow_credentials: true,
-    allow_headers: ["*"],
-    log: [rejected: :error, invalid: :warn, accepted: :debug]
+  plug CelebServerWeb.Router
 end
