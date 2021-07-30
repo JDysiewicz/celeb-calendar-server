@@ -23,6 +23,7 @@ defmodule CelebServerWeb.Router do
   scope "/api", CelebServerWeb do
     pipe_through [:api, :api_auth]
     resources "/users", UserController, except: [:new, :edit, :create]
+    post "/users/sign_out", UserController, :sign_out
   end
 
   scope "/api", CelebServerWeb do

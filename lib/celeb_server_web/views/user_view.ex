@@ -21,4 +21,8 @@ defmodule CelebServerWeb.UserView do
       }
     }
   end
+
+  def render("sign_out.json", _) do
+    %{message: "Successfully signed out"}
+  end
 end
