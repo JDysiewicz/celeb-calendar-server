@@ -17,4 +17,8 @@ defmodule CelebServerWeb.ErrorView do
   def render("401.json", %{message: message}) do
     %{errors: %{detail: message}}
   end
+
+  def render("403.json", %{message: message}) do
+    %{errors: %{detail: message}}
+  end
 end

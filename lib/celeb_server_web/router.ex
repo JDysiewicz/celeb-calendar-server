@@ -22,7 +22,7 @@ defmodule CelebServerWeb.Router do
 
   scope "/api", CelebServerWeb do
     pipe_through [:api, :api_auth]
-    resources "/users", UserController, except: [:new, :edit, :create]
+    resources "/users", UserController, except: [:new, :edit, :create, :index]
     post "/users/sign_out", UserController, :sign_out
   end
 
@@ -34,6 +34,7 @@ defmodule CelebServerWeb.Router do
 
   scope "/api", CelebServerWeb do
     pipe_through [:api, :api_auth, :api_admin]
+    get "/users", UserController, :index
     post "/celebs", CelebController, :create
     patch "/celebs/:id", CelebController, :update
     put "/celebs/:id", CelebController, :update
@@ -61,9 +62,9 @@ defmodule CelebServerWeb.Router do
       conn
     else
       conn
-      |> put_status(:unauthorized)
+      |> put_status(:forbidden)
       |> put_view(CelebServerWeb.ErrorView)
-      |> render("401.json", message: "Unauthorized user; admin access required")
+      |> render("403.json", message: "Insufficient Permissions")
       |> halt()
     end
   end
