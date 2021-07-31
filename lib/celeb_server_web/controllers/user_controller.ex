@@ -32,11 +32,21 @@ defmodule CelebServerWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Account.create_user(user_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.user_path(conn, :show, user))
-      |> render("show.json", user: user)
+    case Account.create_user(user_params) do
+      {:ok, %User{} = user} ->
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.user_path(conn, :show, user))
+        |> render("show.json", user: user)
+
+      {:error,
+       %Ecto.Changeset{errors: [username: {_, [constraint: :unique, constraint_name: _]}]}} ->
+        IO.puts("Error: username <#{Map.get(user_params, "username")}> already in use.")
+
+        conn
+        |> put_status(:bad_request)
+        |> put_view(CelebServerWeb.ErrorView)
+        |> render("400.json", message: "Username already in use")
     end
   end
 
