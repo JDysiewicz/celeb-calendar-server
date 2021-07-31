@@ -86,4 +86,14 @@ defmodule CelebServerWeb.UserController do
     |> put_view(CelebServerWeb.UserView)
     |> render("sign_out.json", %{})
   end
+
+  def current_user(conn, _params) do
+    current_user_id = get_session(conn, :current_user_id)
+    user = CelebServer.Account.get_user!(current_user_id)
+
+    conn
+    |> put_status(:ok)
+    |> put_view(CelebServerWeb.UserView)
+    |> render("sign_in.json", user: user)
+  end
 end
